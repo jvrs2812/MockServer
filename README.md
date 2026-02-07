@@ -1,15 +1,15 @@
 # MockServer 🦀
 
-Um servidor mock altamente configurável escrito em Rust para simular APIs durante desenvolvimento e testes.
+A highly configurable mock server written in Rust for simulating APIs during development and testing.
 
 ## Features
 
-- 🎯 **Endpoints Dinâmicos** - Configure via YAML ou HTTP
-- 🎲 **Dados Fake** - Geração automática com 25+ tipos (nomes, emails, UUIDs, etc.)
-- ⏱️ **Delay/Timeout** - Simule latência e timeouts
-- ✅ **Validação** - Valide requests com JSON Schema
-- 🔀 **Lógica Condicional** - Respostas diferentes baseadas em params/headers
-- 🔄 **Configuração Dinâmica** - Atualize endpoints via HTTP sem reiniciar
+- 🎯 **Dynamic Endpoints** - Configure via YAML or HTTP
+- 🎲 **Fake Data** - Automatic generation with 25+ types (names, emails, UUIDs, etc.)
+- ⏱️ **Delay/Timeout** - Simulate latency and timeouts
+- ✅ **Validation** - Validate requests with JSON Schema
+- 🔀 **Conditional Logic** - Different responses based on params/headers
+- 🔄 **Dynamic Configuration** - Update endpoints via HTTP without restart
 
 ## Quick Start
 
@@ -17,20 +17,20 @@ Um servidor mock altamente configurável escrito em Rust para simular APIs duran
 # Build
 cargo build --release
 
-# Executar
+# Run
 cargo run
 
-# Ou com config customizada
+# Or with custom config
 CONFIG_PATH=./my-config.yaml cargo run
 ```
 
-O servidor inicia em `http://localhost:3000`
+Server starts at `http://localhost:3000`
 
-## Configuração
+## Configuration
 
-### Via Arquivo YAML
+### Via YAML File
 
-Edite `config/endpoints.yaml`:
+Edit `config/endpoints.yaml`:
 
 ```yaml
 server:
@@ -49,13 +49,13 @@ endpoints:
 
 ### Via HTTP
 
-Atualize a configuração dinamicamente:
+Update configuration dynamically:
 
 ```bash
-# Ver configuração atual
+# View current configuration
 curl http://localhost:3000/_config
 
-# Atualizar configuração
+# Update configuration
 curl -X POST http://localhost:3000/_config \
   -H "Content-Type: application/json" \
   -d '{
@@ -83,19 +83,19 @@ curl -X POST http://localhost:3000/_config \
   }'
 ```
 
-## Exemplos de Configuração
+## Configuration Examples
 
-### Endpoint com Delay
+### Endpoint with Delay
 ```yaml
 - path: "/api/slow"
   method: GET
-  delay: 3000  # 3 segundos
+  delay: 3000  # 3 seconds
   response:
     status: 200
     body: { message: "Delayed response" }
 ```
 
-### Endpoint com Path Params
+### Endpoint with Path Params
 ```yaml
 - path: "/api/users/:id"
   method: GET
@@ -106,7 +106,7 @@ curl -X POST http://localhost:3000/_config \
       name: { $fake: "name" }
 ```
 
-### Endpoint com Condições
+### Endpoint with Conditions
 ```yaml
 - path: "/api/users/:id"
   method: GET
@@ -121,7 +121,7 @@ curl -X POST http://localhost:3000/_config \
         body: { error: "Not found" }
 ```
 
-### Endpoint com Delay Randômico
+### Endpoint with Random Delay
 ```yaml
 - path: "/api/random-delay"
   method: GET
@@ -134,37 +134,37 @@ curl -X POST http://localhost:3000/_config \
     body: { message: "Random delay" }
 ```
 
-## Tipos de Dados Fake
+## Fake Data Types
 
-| Tipo | Descrição |
-|------|-----------|
+| Type | Description |
+|------|-------------|
 | `uuid` | UUID v4 |
-| `name` | Nome completo |
-| `email` | Email |
-| `phone` | Telefone |
-| `number` | Número (com min/max) |
-| `datetime` | Data/hora ISO |
-| `address` | Endereço |
-| `company` | Nome de empresa |
-| `sentence` | Frase lorem |
+| `name` | Full name |
+| `email` | Email address |
+| `phone` | Phone number |
+| `number` | Number (with min/max) |
+| `datetime` | ISO datetime |
+| `address` | Full address |
+| `company` | Company name |
+| `sentence` | Lorem ipsum sentence |
 | `url` | URL |
 | `boolean` | true/false |
-| `color` | Cor hexadecimal |
+| `color` | Hexadecimal color |
 
-## Diretivas Especiais
+## Special Directives
 
-- `$fake` - Gera dado fake
-- `$param` - Valor do path parameter
-- `$body` - Valor do request body
-- `$array` - Gera array com template
+- `$fake` - Generate fake data
+- `$param` - Path parameter value
+- `$body` - Request body value
+- `$array` - Generate array with template
 
-## Endpoint de Gerenciamento
+## Management Endpoint
 
 ### `GET /_config`
-Retorna a configuração atual do servidor.
+Returns the current server configuration.
 
 ### `POST /_config`
-Atualiza a configuração do servidor dinamicamente.
+Updates the server configuration dynamically.
 
 ## License
 
